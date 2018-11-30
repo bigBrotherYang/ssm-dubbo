@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xt.dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.xt.vo.Comment">
+    <id column="c_id" jdbcType="INTEGER" property="cId" />
+    <result column="b_id" jdbcType="INTEGER" property="bId" />
+    <result column="context" jdbcType="VARCHAR" property="context" />
+    <result column="comment_date" jdbcType="DATE" property="commentDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    c_id, b_id, context, comment_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where c_id = #{cId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where c_id = #{cId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xt.vo.Comment">
+    insert into comment (c_id, b_id, context, 
+      comment_date)
+    values (#{cId,jdbcType=INTEGER}, #{bId,jdbcType=INTEGER}, #{context,jdbcType=VARCHAR}, 
+      #{commentDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xt.vo.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cId != null">
+        c_id,
+      </if>
+      <if test="bId != null">
+        b_id,
+      </if>
+      <if test="context != null">
+        context,
+      </if>
+      <if test="commentDate != null">
+        comment_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cId != null">
+        #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="bId != null">
+        #{bId,jdbcType=INTEGER},
+      </if>
+      <if test="context != null">
+        #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="commentDate != null">
+        #{commentDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xt.vo.Comment">
+    update comment
+    <set>
+      <if test="bId != null">
+        b_id = #{bId,jdbcType=INTEGER},
+      </if>
+      <if test="context != null">
+        context = #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="commentDate != null">
+        comment_date = #{commentDate,jdbcType=DATE},
+      </if>
+    </set>
+    where c_id = #{cId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xt.vo.Comment">
+    update comment
+    set b_id = #{bId,jdbcType=INTEGER},
+      context = #{context,jdbcType=VARCHAR},
+      comment_date = #{commentDate,jdbcType=DATE}
+    where c_id = #{cId,jdbcType=INTEGER}
+  </update>
+</mapper>
